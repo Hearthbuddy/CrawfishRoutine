@@ -19,12 +19,13 @@ jobs:
     - name: Checkout CrawfishRoutine
       uses: actions/checkout@v4
 
-    # 2. 检出 Hearthbuddy 主程序代码
+    # 2. 检出 Hearthbuddy 主程序代码（私有仓库）
     - name: Checkout Hearthbuddy
       uses: actions/checkout@v4
       with:
         repository: Hearthbuddy/Hearthbuddy
         path: Hearthbuddy
+        token: ${{ secrets.GH_TOKEN }}
 
     # 3. 设置 MSBuild
     - name: Setup MSBuild.exe
@@ -48,41 +49,7 @@ jobs:
         cd Hearthbuddy
         msbuild /p:Configuration=Release
 
-    # 8. 准备 lib 目录
-    - name: Prepare lib directory
-      shell: bash
-      run: |
-        # 创建 lib 目录
-        mkdir -p lib
-        
-        # 复制 Hearthbuddy 主程序和依赖 DLL
-        cp Hearthbuddy/Build/bin/Release/net472/Hearthbuddy.exe lib/
-        cp Hearthbuddy/Build/bin/Release/net472/Triton.Bot.dll lib/
-        cp Hearthbuddy/Build/bin/Release/net472/Triton.Common.dll lib/
-        cp Hearthbuddy/Build/bin/Release/net472/Triton.Game.dll lib/
-        cp Hearthbuddy/Build/bin/Release/net472/log4net.dll lib/
-        cp Hearthbuddy/Build/bin/Release/net472/Newtonsoft.Json.dll lib/
-
-    # 9. 从 HDT release 下载并提取 HearthWatcher.dll
-    - name: Download and extract HearthWatcher.dll from HDT
-      shell: bash
-      run: |
-        # 获取 HDT 最新 release 的下载链接
-        HDT_RELEASE_URL=$(curl -s https://api.github.com/repos/HearthSim/Hearthstone-Deck-Tracker/releases/latest | grep "browser_download_url.*zip" | cut -d '"' -f 4)
-        
-        echo "Downloading HDT from: $HDT_RELEASE_URL"
-        curl -L $HDT_RELEASE_URL -o hdt.zip
-        
-        # 解压并提取 HearthWatcher.dll
-        7z x hdt.zip -ohdt_extracted
-        
-        # 查找并复制 HearthWatcher.dll
-        find hdt_extracted -name "HearthWatcher.dll" -exec cp {} lib/ \;
-        
-        # 清理临时文件
-        rm -rf hdt.zip hdt_extracted
-
-    # 10. 编译 CrawfishRoutine
+    # 8. 编译 CrawfishRoutine
     - name: Build CrawfishRoutine
       run: |
         dotnet restore

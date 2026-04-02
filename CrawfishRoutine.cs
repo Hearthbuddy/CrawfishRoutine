@@ -4,6 +4,7 @@ using System.Windows;
 using System.Windows.Controls;
 using log4net;
 using Triton.Bot;
+using Triton.Bot.Settings;
 using Triton.Common;
 using Triton.Game;
 using Logger = Triton.Common.LogUtilities.Logger;
@@ -41,7 +42,6 @@ namespace CrawfishRoutine
             Log.Info("[龙虾版天梯策略] 启动");
             GameEventManager.GameOver += OnGameOver;
             GameEventManager.NewGame += OnNewGame;
-            CrawfishRoutineSettings.Instance.ReloadFile();
         }
 
         public void Tick()

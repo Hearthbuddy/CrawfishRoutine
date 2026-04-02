@@ -47,10 +47,7 @@ jobs:
     - name: Prepare lib directory
       shell: bash
       run: |
-        # 创建 lib 目录
-        mkdir -p lib
-        
-        # 只复制 Hearthbuddy 主程序
+        # 只复制 Hearthbuddy 主程序到 lib 目录
         cp Hearthbuddy/Build/bin/Release/net472/Hearthbuddy.exe lib/
 
     # 9. 从 HDT release 下载并提取 HearthWatcher.dll
@@ -72,7 +69,14 @@ jobs:
         # 清理临时文件
         rm -rf hdt.zip hdt_extracted
 
-    # 10. 编译 CrawfishRoutine
+    # 10. 清理主程序代码
+    - name: Clean Hearthbuddy source
+      shell: bash
+      run: |
+        # 删除 Hearthbuddy 源代码目录
+        rm -rf Hearthbuddy
+
+    # 11. 编译 CrawfishRoutine
     - name: Build CrawfishRoutine
       run: |
         dotnet restore

@@ -10,6 +10,8 @@
     <PlatformTarget>x86</PlatformTarget>
     <OutputPath>bin\$(Configuration)\</OutputPath>
     <BaseIntermediateOutputPath>obj\</BaseIntermediateOutputPath>
+    <!-- 全局引用路径 -->
+    <LibPath>lib\</LibPath>
   </PropertyGroup>
 
   <!-- NUnit 测试框架 -->
@@ -22,7 +24,15 @@
   <!-- Hearthbuddy 引用（lib 目录） -->
   <ItemGroup>
     <Reference Include="Hearthbuddy">
-      <HintPath>lib\Hearthbuddy.exe</HintPath>
+      <HintPath>$(LibPath)Hearthbuddy.exe</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="HearthWatcher">
+      <HintPath>$(LibPath)HearthWatcher.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="log4net">
+      <HintPath>$(LibPath)log4net.dll</HintPath>
       <Private>false</Private>
     </Reference>
   </ItemGroup>

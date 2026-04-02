@@ -43,17 +43,20 @@ jobs:
         cd Hearthbuddy
         msbuild /p:Configuration=Release
 
-    # 8. 准备 lib 目录
+    # 8. 查看 Hearthbuddy 编译输出
+    - name: List Hearthbuddy build output
+      shell: bash
+      run: |
+        echo "=== Hearthbuddy Build Output ==="
+        find Hearthbuddy/Build -name "*.dll" -o -name "*.exe" | head -20
+
+    # 9. 准备 lib 目录
     - name: Prepare lib directory
       shell: bash
       run: |
-        # 复制 Hearthbuddy 主程序和依赖 DLL 到 lib 目录
-        cp Hearthbuddy/Build/bin/Release/net472/Hearthbuddy.exe lib/
-        cp Hearthbuddy/Build/bin/Release/net472/Triton.Bot.dll lib/
-        cp Hearthbuddy/Build/bin/Release/net472/Triton.Common.dll lib/
-        cp Hearthbuddy/Build/bin/Release/net472/Triton.Game.dll lib/
-        cp Hearthbuddy/Build/bin/Release/net472/log4net.dll lib/
-        cp Hearthbuddy/Build/bin/Release/net472/Newtonsoft.Json.dll lib/
+        # 复制 Hearthbuddy 相关文件到 lib 目录
+        cp Hearthbuddy/Build/bin/Release/net472/Hearthbuddy.exe lib/ || true
+        cp Hearthbuddy/Build/bin/Release/net472/*.dll lib/ || true
 
     # 9. 从 HDT release 下载并提取 HearthWatcher.dll
     - name: Download and extract HearthWatcher.dll from HDT

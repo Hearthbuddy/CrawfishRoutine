@@ -26,14 +26,7 @@ jobs:
         repository: Hearthbuddy/Hearthbuddy
         path: Hearthbuddy
 
-    # 3. 检出 Hearthbuddy-extension 代码
-    - name: Checkout Hearthbuddy-extension
-      uses: actions/checkout@v4
-      with:
-        repository: Hearthbuddy/Hearthbuddy-extension
-        path: Hearthbuddy-extension
-
-    # 4. 设置 MSBuild
+    # 3. 设置 MSBuild
     - name: Setup MSBuild.exe
       uses: microsoft/setup-msbuild@v2
 
@@ -69,9 +62,6 @@ jobs:
         cp Hearthbuddy/Build/bin/Release/net472/Triton.Game.dll lib/
         cp Hearthbuddy/Build/bin/Release/net472/log4net.dll lib/
         cp Hearthbuddy/Build/bin/Release/net472/Newtonsoft.Json.dll lib/
-        
-        # 复制 Hearthbuddy-extension
-        cp -r Hearthbuddy-extension/* lib/
 
     # 9. 从 HDT release 下载并提取 HearthWatcher.dll
     - name: Download and extract HearthWatcher.dll from HDT

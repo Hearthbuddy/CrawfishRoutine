@@ -19,30 +19,30 @@
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.5.0" />
   </ItemGroup>
 
-  <!-- Hearthbuddy 核心引用（相对路径指向 Hearthbuddy 主程序目录） -->
+  <!-- Hearthbuddy 核心引用（lib 目录） -->
   <ItemGroup>
     <Reference Include="Hearthbuddy">
-      <HintPath>..\Hearthbuddy\Hearthbuddy.exe</HintPath>
+      <HintPath>lib\Hearthbuddy.exe</HintPath>
       <Private>false</Private>
     </Reference>
     <Reference Include="Triton.Bot">
-      <HintPath>..\Hearthbuddy\Triton.Bot.dll</HintPath>
+      <HintPath>lib\Triton.Bot.dll</HintPath>
       <Private>false</Private>
     </Reference>
     <Reference Include="Triton.Common">
-      <HintPath>..\Hearthbuddy\Triton.Common.dll</HintPath>
+      <HintPath>lib\Triton.Common.dll</HintPath>
       <Private>false</Private>
     </Reference>
     <Reference Include="Triton.Game">
-      <HintPath>..\Hearthbuddy\Triton.Game.dll</HintPath>
+      <HintPath>lib\Triton.Game.dll</HintPath>
       <Private>false</Private>
     </Reference>
     <Reference Include="log4net">
-      <HintPath>..\Hearthbuddy\log4net.dll</HintPath>
+      <HintPath>lib\log4net.dll</HintPath>
       <Private>false</Private>
     </Reference>
     <Reference Include="Newtonsoft.Json">
-      <HintPath>..\Hearthbuddy\Newtonsoft.Json.dll</HintPath>
+      <HintPath>lib\Newtonsoft.Json.dll</HintPath>
       <Private>false</Private>
     </Reference>
   </ItemGroup>

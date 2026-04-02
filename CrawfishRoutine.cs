@@ -18,6 +18,7 @@ namespace CrawfishRoutine
     {
         private static readonly ILog Log = Logger.GetLoggerInstanceForType();
         private UserControl? _control;
+        private bool _enabled;
 
         public string Name => "龙虾版天梯策略";
         public string Description => "参考 Silverfish 实现的天梯对战 AI";
@@ -25,6 +26,9 @@ namespace CrawfishRoutine
         public string Version => "1.0.0.0";
 
         public JsonSettings Settings => CrawfishRoutineSettings.Instance;
+        
+        /// <summary>插件是否启用</summary>
+        public bool IsEnabled => _enabled;
 
         public void Initialize()
         {
@@ -51,6 +55,23 @@ namespace CrawfishRoutine
             Log.Info("[龙虾版天梯策略] 停止");
             GameEventManager.GameOver -= OnGameOver;
             GameEventManager.GameStart -= OnGameStart;
+        }
+
+        public void Deinitialize()
+        {
+            Log.Info("[龙虾版天梯策略] 反初始化");
+        }
+
+        public void Enable()
+        {
+            Log.Info("[龙虾版天梯策略] 启用");
+            _enabled = true;
+        }
+
+        public void Disable()
+        {
+            Log.Info("[龙虾版天梯策略] 禁用");
+            _enabled = false;
         }
 
         public UserControl Control

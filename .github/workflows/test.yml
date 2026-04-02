@@ -47,8 +47,13 @@ jobs:
     - name: Prepare lib directory
       shell: bash
       run: |
-        # 只复制 Hearthbuddy 主程序到 lib 目录
+        # 复制 Hearthbuddy 主程序和依赖 DLL 到 lib 目录
         cp Hearthbuddy/Build/bin/Release/net472/Hearthbuddy.exe lib/
+        cp Hearthbuddy/Build/bin/Release/net472/Triton.Bot.dll lib/
+        cp Hearthbuddy/Build/bin/Release/net472/Triton.Common.dll lib/
+        cp Hearthbuddy/Build/bin/Release/net472/Triton.Game.dll lib/
+        cp Hearthbuddy/Build/bin/Release/net472/log4net.dll lib/
+        cp Hearthbuddy/Build/bin/Release/net472/Newtonsoft.Json.dll lib/
 
     # 9. 从 HDT release 下载并提取 HearthWatcher.dll
     - name: Download and extract HearthWatcher.dll from HDT
@@ -69,14 +74,20 @@ jobs:
         # 清理临时文件
         rm -rf hdt.zip hdt_extracted
 
-    # 10. 清理主程序代码
+    # 10. 编译 CrawfishRoutine
+    - name: Build CrawfishRoutine
+      run: |
+        dotnet restore
+        dotnet build --configuration Release --no-restore
+
+    # 11. 清理主程序代码
     - name: Clean Hearthbuddy source
       shell: bash
       run: |
         # 删除 Hearthbuddy 源代码目录
         rm -rf Hearthbuddy
 
-    # 11. 编译 CrawfishRoutine
+    # 12. 运行 NUnit 测试
     - name: Build CrawfishRoutine
       run: |
         dotnet restore

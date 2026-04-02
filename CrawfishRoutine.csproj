@@ -1,0 +1,67 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net472</TargetFramework>
+    <AssemblyName>CrawfishRoutine</AssemblyName>
+    <RootNamespace>CrawfishRoutine</RootNamespace>
+    <LangVersion>latest</LangVersion>
+    <Nullable>enable</Nullable>
+    <Platforms>x86</Platforms>
+    <PlatformTarget>x86</PlatformTarget>
+    <OutputPath>bin\$(Configuration)\</OutputPath>
+    <BaseIntermediateOutputPath>obj\</BaseIntermediateOutputPath>
+  </PropertyGroup>
+
+  <!-- NUnit 测试框架 -->
+  <ItemGroup>
+    <PackageReference Include="NUnit" Version="3.13.3" />
+    <PackageReference Include="NUnit3TestAdapter" Version="4.4.2" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.5.0" />
+  </ItemGroup>
+
+  <!-- Hearthbuddy 核心引用（相对路径指向 Hearthbuddy 主程序目录） -->
+  <ItemGroup>
+    <Reference Include="Hearthbuddy">
+      <HintPath>..\Hearthbuddy\Hearthbuddy.exe</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="Triton.Bot">
+      <HintPath>..\Hearthbuddy\Triton.Bot.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="Triton.Common">
+      <HintPath>..\Hearthbuddy\Triton.Common.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="Triton.Game">
+      <HintPath>..\Hearthbuddy\Triton.Game.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="log4net">
+      <HintPath>..\Hearthbuddy\log4net.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\Hearthbuddy\Newtonsoft.Json.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+  </ItemGroup>
+
+  <!-- 第三方 DLL 引用（lib 目录） -->
+  <ItemGroup>
+    <!-- HearthWatcher.dll 将放在 lib 目录中 -->
+    <!-- <Reference Include="HearthWatcher">
+      <HintPath>lib\HearthWatcher.dll</HintPath>
+      <Private>false</Private>
+    </Reference> -->
+  </ItemGroup>
+
+  <!-- WPF 引用 -->
+  <ItemGroup>
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+    <Reference Include="WindowsBase" />
+    <Reference Include="System.Xaml" />
+  </ItemGroup>
+
+</Project>

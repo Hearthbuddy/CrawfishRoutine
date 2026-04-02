@@ -37,20 +37,20 @@ jobs:
         cd Hearthbuddy
         msbuild $env:Solution_Name /t:Restore /p:Configuration=Release
 
-    # 7. 编译 Hearthbuddy 主程序（不加密）
+    # 5. 编译 Hearthbuddy 主程序（不加密）
     - name: Build Hearthbuddy
       run: |
         cd Hearthbuddy
         msbuild /p:Configuration=Release
 
-    # 8. 查看 Hearthbuddy 编译输出
+    # 6. 查看 Hearthbuddy 编译输出
     - name: List Hearthbuddy build output
       shell: bash
       run: |
         echo "=== Hearthbuddy Build Output ==="
         find Hearthbuddy/Build -name "*.dll" -o -name "*.exe" | head -20
 
-    # 9. 准备 lib 目录
+    # 7. 准备 lib 目录
     - name: Prepare lib directory
       shell: bash
       run: |
@@ -58,7 +58,7 @@ jobs:
         cp Hearthbuddy/Build/bin/Release/net472/Hearthbuddy.exe lib/ || true
         cp Hearthbuddy/Build/bin/Release/net472/*.dll lib/ || true
 
-    # 9. 从 HDT release 下载并提取 HearthWatcher.dll
+    # 8. 从 HDT release 下载并提取 HearthWatcher.dll
     - name: Download and extract HearthWatcher.dll from HDT
       shell: bash
       run: |
@@ -77,24 +77,18 @@ jobs:
         # 清理临时文件
         rm -rf hdt.zip hdt_extracted
 
-    # 10. 编译 CrawfishRoutine
+    # 9. 编译 CrawfishRoutine
     - name: Build CrawfishRoutine
       run: |
         dotnet restore
         dotnet build --configuration Release --no-restore
 
-    # 11. 清理主程序代码
+    # 10. 清理主程序代码
     - name: Clean Hearthbuddy source
       shell: bash
       run: |
         # 删除 Hearthbuddy 源代码目录
         rm -rf Hearthbuddy
-
-    # 12. 运行 NUnit 测试
-    - name: Build CrawfishRoutine
-      run: |
-        dotnet restore
-        dotnet build --configuration Release --no-restore
 
     # 11. 运行 NUnit 测试
     - name: Run NUnit tests

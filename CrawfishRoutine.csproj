@@ -24,13 +24,13 @@
   <!-- Hearthbuddy 引用（lib 目录） -->
   <ItemGroup>
     <Reference Include="Hearthbuddy">
-      <Private>false</Private>
+      <Private>true</Private>
     </Reference>
     <Reference Include="HearthWatcher">
-      <Private>false</Private>
+      <Private>true</Private>
     </Reference>
     <Reference Include="log4net">
-      <Private>false</Private>
+      <Private>true</Private>
     </Reference>
   </ItemGroup>
 

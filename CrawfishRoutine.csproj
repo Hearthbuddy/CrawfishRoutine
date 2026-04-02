@@ -25,18 +25,6 @@
       <HintPath>lib\Hearthbuddy.exe</HintPath>
       <Private>false</Private>
     </Reference>
-    <Reference Include="Triton.Bot">
-      <HintPath>lib\Triton.Bot.dll</HintPath>
-      <Private>false</Private>
-    </Reference>
-    <Reference Include="Triton.Common">
-      <HintPath>lib\Triton.Common.dll</HintPath>
-      <Private>false</Private>
-    </Reference>
-    <Reference Include="Triton.Game">
-      <HintPath>lib\Triton.Game.dll</HintPath>
-      <Private>false</Private>
-    </Reference>
     <Reference Include="log4net">
       <HintPath>lib\log4net.dll</HintPath>
       <Private>false</Private>

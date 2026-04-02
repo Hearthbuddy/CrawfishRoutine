@@ -1,0 +1,112 @@
+name: Test
+
+on:
+  push:
+    branches: [ master, main ]
+  pull_request:
+    branches: [ master, main ]
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: windows-latest
+
+    env:
+      Solution_Name: Hearthbuddy.sln
+
+    steps:
+    # 1. 检出 CrawfishRoutine 代码
+    - name: Checkout CrawfishRoutine
+      uses: actions/checkout@v4
+
+    # 2. 检出 Hearthbuddy 主程序代码
+    - name: Checkout Hearthbuddy
+      uses: actions/checkout@v4
+      with:
+        repository: Hearthbuddy/Hearthbuddy
+        path: Hearthbuddy
+
+    # 3. 检出 Hearthbuddy-extension 代码
+    - name: Checkout Hearthbuddy-extension
+      uses: actions/checkout@v4
+      with:
+        repository: Hearthbuddy/Hearthbuddy-extension
+        path: Hearthbuddy-extension
+
+    # 4. 设置 MSBuild
+    - name: Setup MSBuild.exe
+      uses: microsoft/setup-msbuild@v2
+
+    # 5. 设置 .NET Framework
+    - name: Setup .NET Framework
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: '4.7.2'
+
+    # 6. 恢复 Hearthbuddy 应用程序
+    - name: Restore Hearthbuddy
+      run: |
+        cd Hearthbuddy
+        msbuild $env:Solution_Name /t:Restore /p:Configuration=Release
+
+    # 7. 编译 Hearthbuddy 主程序（不加密）
+    - name: Build Hearthbuddy
+      run: |
+        cd Hearthbuddy
+        msbuild /p:Configuration=Release
+
+    # 8. 准备 lib 目录
+    - name: Prepare lib directory
+      shell: bash
+      run: |
+        # 创建 lib 目录
+        mkdir -p lib
+        
+        # 复制 Hearthbuddy 主程序和依赖 DLL
+        cp Hearthbuddy/Build/bin/Release/net472/Hearthbuddy.exe lib/
+        cp Hearthbuddy/Build/bin/Release/net472/Triton.Bot.dll lib/
+        cp Hearthbuddy/Build/bin/Release/net472/Triton.Common.dll lib/
+        cp Hearthbuddy/Build/bin/Release/net472/Triton.Game.dll lib/
+        cp Hearthbuddy/Build/bin/Release/net472/log4net.dll lib/
+        cp Hearthbuddy/Build/bin/Release/net472/Newtonsoft.Json.dll lib/
+        
+        # 复制 Hearthbuddy-extension
+        cp -r Hearthbuddy-extension/* lib/
+
+    # 9. 从 HDT release 下载并提取 HearthWatcher.dll
+    - name: Download and extract HearthWatcher.dll from HDT
+      shell: bash
+      run: |
+        # 获取 HDT 最新 release 的下载链接
+        HDT_RELEASE_URL=$(curl -s https://api.github.com/repos/HearthSim/Hearthstone-Deck-Tracker/releases/latest | grep "browser_download_url.*zip" | cut -d '"' -f 4)
+        
+        echo "Downloading HDT from: $HDT_RELEASE_URL"
+        curl -L $HDT_RELEASE_URL -o hdt.zip
+        
+        # 解压并提取 HearthWatcher.dll
+        7z x hdt.zip -ohdt_extracted
+        
+        # 查找并复制 HearthWatcher.dll
+        find hdt_extracted -name "HearthWatcher.dll" -exec cp {} lib/ \;
+        
+        # 清理临时文件
+        rm -rf hdt.zip hdt_extracted
+
+    # 10. 编译 CrawfishRoutine
+    - name: Build CrawfishRoutine
+      run: |
+        dotnet restore
+        dotnet build --configuration Release --no-restore
+
+    # 11. 运行 NUnit 测试
+    - name: Run NUnit tests
+      run: |
+        dotnet test --configuration Release --no-build --verbosity normal
+
+    # 12. 上传测试结果
+    - name: Upload test results
+      uses: actions/upload-artifact@v4
+      if: always()
+      with:
+        name: test-results
+        path: TestResults/

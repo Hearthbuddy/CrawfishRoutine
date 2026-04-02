@@ -4,7 +4,6 @@ using System.Windows;
 using System.Windows.Controls;
 using log4net;
 using Triton.Bot;
-using Triton.Bot.Settings;
 using Triton.Common;
 using Triton.Game;
 using Logger = Triton.Common.LogUtilities.Logger;
@@ -41,7 +40,7 @@ namespace CrawfishRoutine
         {
             Log.Info("[龙虾版天梯策略] 启动");
             GameEventManager.GameOver += OnGameOver;
-            GameEventManager.GameStart += OnGameStart;
+            GameEventManager.NewGame += OnNewGame;
             CrawfishRoutineSettings.Instance.ReloadFile();
         }
 
@@ -54,7 +53,7 @@ namespace CrawfishRoutine
         {
             Log.Info("[龙虾版天梯策略] 停止");
             GameEventManager.GameOver -= OnGameOver;
-            GameEventManager.GameStart -= OnGameStart;
+            GameEventManager.NewGame -= OnNewGame;
         }
 
         public void Deinitialize()
@@ -119,13 +118,13 @@ namespace CrawfishRoutine
             return new UserControl { Content = panel };
         }
 
-        private void OnGameStart(object? sender, GameEventArgs e)
+        private void OnNewGame(object? sender, NewGameEventArgs e)
         {
             Log.Info("[龙虾版天梯策略] 游戏开始");
             // TODO: 初始化策略和日志记录
         }
 
-        private void OnGameOver(object? sender, GameEventArgs e)
+        private void OnGameOver(object? sender, GameOverEventArgs e)
         {
             Log.Info("[龙虾版天梯策略] 游戏结束");
             // TODO: 保存回放文件

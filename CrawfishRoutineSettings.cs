@@ -1,4 +1,4 @@
-using Triton.Bot.Settings;
+using Triton.Common;
 
 namespace CrawfishRoutine
 {

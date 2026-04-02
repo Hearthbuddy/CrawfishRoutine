@@ -61,11 +61,11 @@ jobs:
     - name: Download and extract HearthWatcher.dll from HDT
       shell: bash
       run: |
-        # 获取 HDT 最新 release 的下载链接
-        HDT_RELEASE_URL=$(curl -s https://api.github.com/repos/HearthSim/Hearthstone-Deck-Tracker/releases/latest | grep "browser_download_url.*zip" | cut -d '"' -f 4)
+        # 使用 GitHub CLI 获取 HDT 最新 release 的下载链接
+        HDT_RELEASE_URL=$(gh release view --repo HearthSim/Hearthstone-Deck-Tracker --json assets --jq '.assets[] | select(.name | endswith(".zip")) | .url')
         
         echo "Downloading HDT from: $HDT_RELEASE_URL"
-        curl -L $HDT_RELEASE_URL -o hdt.zip
+        curl -L "$HDT_RELEASE_URL" -o hdt.zip
         
         # 解压并提取 HearthWatcher.dll
         7z x hdt.zip -ohdt_extracted
@@ -75,6 +75,8 @@ jobs:
         
         # 清理临时文件
         rm -rf hdt.zip hdt_extracted
+      env:
+        GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
     # 9. 清理主程序代码（在编译前清理，避免编译器引用源代码）
     - name: Clean Hearthbuddy source

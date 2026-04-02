@@ -54,12 +54,8 @@ jobs:
     - name: Prepare lib directory
       shell: bash
       run: |
-        # 复制 Hearthbuddy 编译输出到 lib 目录
+        # 只复制 Hearthbuddy 主程序
         cp Hearthbuddy/Build/bin/Release/net472/Hearthbuddy.exe lib/ || true
-        cp Hearthbuddy/Build/bin/Release/net472/*.dll lib/ || true
-        
-        # 复制 Newtonsoft.Json.dll（不在编译输出中，需要从 .deps/ 复制）
-        cp Hearthbuddy/.deps/Newtonsoft.Json.dll lib/ || true
 
     # 8. 从 HDT release 下载并提取 HearthWatcher.dll
     - name: Download and extract HearthWatcher.dll from HDT

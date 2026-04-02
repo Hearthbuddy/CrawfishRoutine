@@ -19,29 +19,12 @@
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.5.0" />
   </ItemGroup>
 
-  <!-- Hearthbuddy 核心引用（lib 目录） -->
+  <!-- Hearthbuddy 引用（lib 目录） -->
   <ItemGroup>
     <Reference Include="Hearthbuddy">
       <HintPath>lib\Hearthbuddy.exe</HintPath>
       <Private>false</Private>
     </Reference>
-    <Reference Include="log4net">
-      <HintPath>lib\log4net.dll</HintPath>
-      <Private>false</Private>
-    </Reference>
-    <Reference Include="Newtonsoft.Json">
-      <HintPath>lib\Newtonsoft.Json.dll</HintPath>
-      <Private>false</Private>
-    </Reference>
-  </ItemGroup>
-
-  <!-- 第三方 DLL 引用（lib 目录） -->
-  <ItemGroup>
-    <!-- HearthWatcher.dll 将放在 lib 目录中 -->
-    <!-- <Reference Include="HearthWatcher">
-      <HintPath>lib\HearthWatcher.dll</HintPath>
-      <Private>false</Private>
-    </Reference> -->
   </ItemGroup>
 
   <!-- WPF 引用 -->
